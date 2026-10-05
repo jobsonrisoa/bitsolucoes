@@ -1,0 +1,1 @@
+import{j as n}from"./jsx-runtime-DFAAy_2V.js";import{c as s}from"./utils-BOzF_IbP.js";function t({className:e,...o}){return n.jsx("div",{className:s("animate-pulse rounded-sm bg-ink/10",e),...o})}t.__docgenInfo={description:"",methods:[],displayName:"Skeleton"};export{t as S};

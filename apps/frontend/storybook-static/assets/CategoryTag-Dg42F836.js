@@ -1,0 +1,10 @@
+import{j as n}from"./jsx-runtime-DFAAy_2V.js";function r({category:e}){const a={TI:"TI",RH:"RH",COMPRAS:"Compras",FINANCEIRO:"Financeiro",INFRAESTRUTURA:"Infraestrutura",MAINTENANCE:"Manutenção",IT:"TI",HR:"RH",FACILITIES:"Infraestrutura",OTHER:"Outros"};return n.jsx("span",{className:"text-sm font-medium border-b-2 border-ink",children:a[e]||e})}r.__docgenInfo={description:"",methods:[],displayName:"CategoryTag",props:{category:{required:!0,tsType:{name:"union",raw:`| 'TI'
+| 'RH'
+| 'COMPRAS'
+| 'FINANCEIRO'
+| 'INFRAESTRUTURA'
+| 'IT'
+| 'HR'
+| 'FACILITIES'
+| 'MAINTENANCE'
+| 'OTHER'`,elements:[{name:"literal",value:"'TI'"},{name:"literal",value:"'RH'"},{name:"literal",value:"'COMPRAS'"},{name:"literal",value:"'FINANCEIRO'"},{name:"literal",value:"'INFRAESTRUTURA'"},{name:"literal",value:"'IT'"},{name:"literal",value:"'HR'"},{name:"literal",value:"'FACILITIES'"},{name:"literal",value:"'MAINTENANCE'"},{name:"literal",value:"'OTHER'"}]},description:""}}};export{r as C};

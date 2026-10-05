@@ -1,0 +1,1 @@
+export const pinoConfig = { pinoHttp: { redact: ['req.headers.authorization', 'req.headers.cookie', 'res.headers["set-cookie"]', 'body.password', 'body.passwordHash', 'token'] } };

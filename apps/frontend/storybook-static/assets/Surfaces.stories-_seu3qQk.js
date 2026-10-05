@@ -1,0 +1,20 @@
+import{j as e}from"./jsx-runtime-DFAAy_2V.js";import{C as k}from"./Card-BVSYF_qe.js";import{S as c}from"./Skeleton-DFK5_iM-.js";import{r as y}from"./index-Bc2G9s8g.js";import{c as T}from"./utils-BOzF_IbP.js";import{I as C}from"./Icon-D5n860oz.js";import"./clsx-B-dksMZM.js";import"./chevron-up-DUxbDE7Q.js";function b({title:s,description:i,variant:l="default",onClose:n}){return y.useEffect(()=>{const w=setTimeout(n,5e3);return()=>clearTimeout(w)},[n]),e.jsxs("div",{className:T("pointer-events-auto flex w-full max-w-md flex-col gap-1 border-2 border-ink bg-paper p-4 shadow-sm transition-all duration-250 ease-out",l==="error"&&"border-red text-red",l==="success"&&"border-moss text-moss"),children:[e.jsxs("div",{className:"flex items-center justify-between",children:[e.jsx("h3",{className:"font-bold",children:s}),e.jsx("button",{onClick:n,className:"text-ink hover:text-red",children:"X"})]}),i&&e.jsx("p",{className:"text-sm opacity-90",children:i})]})}b.__docgenInfo={description:"",methods:[],displayName:"Toast",props:{title:{required:!0,tsType:{name:"string"},description:""},description:{required:!1,tsType:{name:"string"},description:""},variant:{required:!1,tsType:{name:"union",raw:"'default' | 'error' | 'success'",elements:[{name:"literal",value:"'default'"},{name:"literal",value:"'error'"},{name:"literal",value:"'success'"}]},description:"",defaultValue:{value:"'default'",computed:!1}},onClose:{required:!0,tsType:{name:"signature",type:"function",raw:"() => void",signature:{arguments:[],return:{name:"void"}}},description:""}}};const R={title:"UI/Surfaces",tags:["autodocs"]},a={render:()=>e.jsxs(k,{className:"max-w-sm p-6",children:[e.jsx("h3",{className:"font-archivo text-xl",children:"Solicitação aberta"}),e.jsx("p",{className:"mt-2 text-sm text-muted",children:"Card base para blocos destacados."})]})},r={render:()=>e.jsxs("div",{className:"w-80 space-y-3",children:[e.jsx(c,{className:"h-8 w-48"}),e.jsx(c,{className:"h-4 w-full"}),e.jsx(c,{className:"h-4 w-2/3"})]})},t={render:()=>e.jsx(b,{title:"Solicitação atualizada",description:"O status foi alterado com sucesso.",variant:"success",onClose:()=>{}})},o={render:()=>e.jsx("div",{className:"flex gap-3",children:["home","list","plus","log-out","moon","sun"].map(s=>e.jsx("div",{className:"border-2 border-ink p-3",children:e.jsx(C,{name:s})},s))})};var d,m,u;a.parameters={...a.parameters,docs:{...(d=a.parameters)==null?void 0:d.docs,source:{originalSource:`{
+  render: () => <Card className="max-w-sm p-6">
+      <h3 className="font-archivo text-xl">Solicitação aberta</h3>
+      <p className="mt-2 text-sm text-muted">Card base para blocos destacados.</p>
+    </Card>
+}`,...(u=(m=a.parameters)==null?void 0:m.docs)==null?void 0:u.source}}};var p,x,f;r.parameters={...r.parameters,docs:{...(p=r.parameters)==null?void 0:p.docs,source:{originalSource:`{
+  render: () => <div className="w-80 space-y-3">
+      <Skeleton className="h-8 w-48" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-2/3" />
+    </div>
+}`,...(f=(x=r.parameters)==null?void 0:x.docs)==null?void 0:f.source}}};var h,v,N;t.parameters={...t.parameters,docs:{...(h=t.parameters)==null?void 0:h.docs,source:{originalSource:`{
+  render: () => <Toast title="Solicitação atualizada" description="O status foi alterado com sucesso." variant="success" onClose={() => undefined} />
+}`,...(N=(v=t.parameters)==null?void 0:v.docs)==null?void 0:N.source}}};var g,S,j;o.parameters={...o.parameters,docs:{...(g=o.parameters)==null?void 0:g.docs,source:{originalSource:`{
+  render: () => <div className="flex gap-3">
+      {(["home", "list", "plus", "log-out", "moon", "sun"] as const).map(name => <div key={name} className="border-2 border-ink p-3">
+          <Icon name={name} />
+        </div>)}
+    </div>
+}`,...(j=(S=o.parameters)==null?void 0:S.docs)==null?void 0:j.source}}};const U=["CardSurface","LoadingSkeleton","ToastMessage","IconSet"];export{a as CardSurface,o as IconSet,r as LoadingSkeleton,t as ToastMessage,U as __namedExportsOrder,R as default};

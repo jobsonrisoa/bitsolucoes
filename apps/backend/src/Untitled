@@ -1,0 +1,14 @@
+cd /home/jobson/Documents/Projects/bit/apps/backend
+
+echo "===== buildinfo files ====="
+find . -name "*.tsbuildinfo" -not -path "*/node_modules/*"
+
+echo "===== which nest / version ====="
+which nest
+npx nest --version
+
+echo "===== direct tsc compile (bypass nest) ====="
+rm -rf dist
+npx tsc -p tsconfig.json
+echo "exit code: $?"
+ls -R dist | head -30

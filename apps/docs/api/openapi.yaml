@@ -1,0 +1,412 @@
+openapi: 3.0.0
+paths:
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: Session cookie set
+        '400':
+          description: Invalid credentials
+      summary: Login with username and password
+      tags: &ref_0
+        - Auth
+  /auth/logout:
+    post:
+      operationId: AuthController_logout
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      summary: Logout and clear session cookie
+      tags: *ref_0
+  /auth/me:
+    get:
+      operationId: AuthController_me
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+        '401':
+          description: Unauthenticated
+      summary: Get current authenticated user
+      tags: *ref_0
+  /requests:
+    get:
+      operationId: RequestsController_list
+      parameters:
+        - name: page
+          required: false
+          in: query
+          schema:
+            minimum: 1
+            default: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          schema:
+            minimum: 1
+            default: 10
+            type: number
+        - name: q
+          required: false
+          in: query
+          description: Search term
+          schema:
+            type: string
+        - name: category
+          required: false
+          in: query
+          schema:
+            type: string
+            enum:
+              - TI
+              - RH
+              - COMPRAS
+              - FINANCEIRO
+              - INFRAESTRUTURA
+        - name: status
+          required: false
+          in: query
+          schema:
+            type: string
+            enum:
+              - OPEN
+              - IN_PROGRESS
+              - DONE
+        - name: sortBy
+          required: false
+          in: query
+          schema:
+            type: string
+            enum:
+              - id
+              - title
+              - category
+              - requesterId
+              - createdAt
+              - status
+        - name: sortOrder
+          required: false
+          in: query
+          schema:
+            default: desc
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponseDto'
+      security: &ref_1
+        - session: []
+      summary: List requests with pagination and filters
+      tags: &ref_2
+        - Requests
+    post:
+      operationId: RequestsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequestDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestResponseDto'
+      security: *ref_1
+      summary: Create a new request
+      tags: *ref_2
+  /requests/{id}:
+    get:
+      operationId: RequestsController_get
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            example: SOL-000001
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestResponseDto'
+        '404':
+          description: Not found
+      security: *ref_1
+      summary: Get request by id
+      tags: *ref_2
+    patch:
+      operationId: RequestsController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            example: SOL-000001
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequestDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestResponseDto'
+        '409':
+          description: Request not editable
+      security: *ref_1
+      summary: Update an open request
+      tags: *ref_2
+    delete:
+      operationId: RequestsController_delete
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            example: SOL-000001
+            type: string
+      responses:
+        '200':
+          description: ''
+        '409':
+          description: Request not deletable
+      security: *ref_1
+      summary: Delete an open request
+      tags: *ref_2
+  /requests/{id}/status:
+    patch:
+      operationId: RequestsController_changeStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            example: SOL-000001
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeStatusDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestResponseDto'
+        '409':
+          description: Invalid status transition
+      security: *ref_1
+      summary: Change request status
+      tags: *ref_2
+  /dashboard/summary:
+    get:
+      operationId: DashboardController_getSummary
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponseDto'
+      security:
+        - session: []
+      summary: Get dashboard summary counts
+      tags:
+        - Dashboard
+  /health/live:
+    get:
+      operationId: HealthController_checkLive
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      summary: Liveness probe
+      tags: &ref_3
+        - Health
+  /health/ready:
+    get:
+      operationId: HealthController_checkReady
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      summary: Readiness probe — checks DB connection
+      tags: *ref_3
+info:
+  title: Atrio API
+  description: Internal requests portal
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    cookie:
+      type: apiKey
+      in: cookie
+      name: session
+  schemas:
+    LoginDto:
+      type: object
+      properties: {}
+    UserResponseDto:
+      type: object
+      properties: {}
+    PaginatedResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: array
+        meta:
+          type: object
+      required:
+        - data
+        - meta
+    CreateRequestDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the request
+          minLength: 3
+          maxLength: 120
+        description:
+          type: string
+          description: Detailed description
+          minLength: 10
+          maxLength: 2000
+        category:
+          type: string
+          enum:
+            - TI
+            - RH
+            - COMPRAS
+            - FINANCEIRO
+            - INFRAESTRUTURA
+      required:
+        - title
+        - description
+        - category
+    RequestResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: SOL-000001
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum:
+            - TI
+            - RH
+            - COMPRAS
+            - FINANCEIRO
+            - INFRAESTRUTURA
+        status:
+          type: string
+          enum:
+            - OPEN
+            - IN_PROGRESS
+            - DONE
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+        - id
+        - title
+        - description
+        - category
+        - status
+        - createdAt
+        - updatedAt
+    UpdateRequestDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the request
+          minLength: 3
+          maxLength: 120
+        description:
+          type: string
+          description: Detailed description
+          minLength: 10
+          maxLength: 2000
+        category:
+          type: string
+          enum:
+            - TI
+            - RH
+            - COMPRAS
+            - FINANCEIRO
+            - INFRAESTRUTURA
+    ChangeStatusDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - OPEN
+            - IN_PROGRESS
+            - DONE
+      required:
+        - status
+    DashboardResponseDto:
+      type: object
+      properties:
+        total:
+          type: number
+        open:
+          type: number
+        inProgress:
+          type: number
+        done:
+          type: number
+      required:
+        - total
+        - open
+        - inProgress
+        - done

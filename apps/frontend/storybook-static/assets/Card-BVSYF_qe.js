@@ -1,0 +1,1 @@
+import{j as d}from"./jsx-runtime-DFAAy_2V.js";import{r as e}from"./index-Bc2G9s8g.js";import{c as m}from"./utils-BOzF_IbP.js";const r=e.forwardRef(({className:o,...a},s)=>d.jsx("div",{ref:s,className:m("rounded-sm border-2 border-ink bg-paper text-ink shadow-md",o),...a}));r.displayName="Card";r.__docgenInfo={description:"",methods:[],displayName:"Card"};export{r as C};

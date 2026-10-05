@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Átrio: pré-visualização do design system</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ede3cf;--paper:#fdfaf3;--ink:#0d0b0a;--muted:#6b6153;--red:#c8103a;--blue:#1a3ba8;--yellow:#f5b400;--terra:#a63d2c;--moss:#3d6b4e;--band-bg:#0d0b0a;--band-text:#fdfaf3;--scheme:light;color-scheme:var(--scheme);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14110d;--paper:#1e1a15;--ink:#ede3cf;--muted:#9a8f7e;--red:#e03550;--blue:#4262e5;--terra:#d16a4f;--moss:#6ba37e;--band-bg:#241d15;--band-text:#f3e9d2;--scheme:dark}}
+:root[data-theme="dark"]{--bg:#14110d;--paper:#1e1a15;--ink:#ede3cf;--muted:#9a8f7e;--red:#e03550;--blue:#4262e5;--terra:#d16a4f;--moss:#6ba37e;--band-bg:#241d15;--band-text:#f3e9d2;--scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 Inter,system-ui,sans-serif}
+:focus{outline:none}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:'Archivo Black',Impact,sans-serif;font-weight:400;line-height:1.02;letter-spacing:-.015em;margin:0 0 16px}
+h1{font-size:clamp(30px,6vw,48px)}h2{font-size:24px;margin-top:40px}h3{font-size:19px}
+p{margin:0 0 16px;max-width:80ch}.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px}.muted{color:var(--muted)}
+.top{display:flex;align-items:center;gap:8px;padding:10px 24px;border-bottom:2px solid var(--ink);background:var(--paper);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:400 19px 'Archivo Black',Impact,sans-serif;margin-right:16px}
+.mark{width:32px;height:32px;color:var(--red)}
+.nav-link{position:relative;background:none;border:0;color:var(--ink);font:600 14px Inter,sans-serif;padding:10px;cursor:pointer}
+.nav-link::after{content:'';position:absolute;left:10px;right:10px;bottom:4px;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left center;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.nav-link:hover::after,.nav-link:focus-visible::after,.nav-link.active::after{transform:scaleX(1)}
+.nav-link.active{color:var(--blue)}
+main{max-width:1100px;margin:0 auto;padding:32px 24px 48px}
+[data-view]{display:none}[data-view].on{display:block}
+.enter{animation:in .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*60ms)}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+.card{background:var(--paper);border:2px solid var(--ink);border-radius:2px;box-shadow:6px 6px 0 var(--ink);padding:24px}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 18px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:2px;box-shadow:4px 4px 0 var(--ink);font:400 13px 'Archivo Black',Impact,sans-serif;letter-spacing:.02em;cursor:pointer}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.btn.primary{background:var(--red);color:#fff}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.28;transform:scale(0);pointer-events:none;animation:rip .55s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes rip{to{transform:scale(2.6);opacity:0}}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.field{display:grid;gap:6px;font-weight:600;font-size:13px}
+.field input,.field select,.field textarea{border:2px solid var(--ink);border-radius:2px;background:var(--paper);color:var(--ink);padding:10px 12px;height:42px;color-scheme:var(--scheme);font:400 14px Inter,sans-serif;width:100%;min-width:0}
+.field textarea{height:96px;resize:vertical}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{box-shadow:0 0 0 3px var(--yellow);outline:none}
+.err{color:var(--red);font-size:13px;font-weight:500;min-height:18px}
+.badge{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:2px;padding:4px 9px;background:var(--paper);color:var(--ink);font:400 10px 'Archivo Black',Impact,sans-serif;letter-spacing:.04em;white-space:nowrap}
+.badge::before{content:'';width:7px;height:7px;background:var(--ink)}
+.badge.open::before{background:var(--blue)}.badge.prog::before{background:var(--terra)}.badge.done::before{background:var(--moss)}
+.tw{overflow-x:auto;border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th{background:var(--ink);color:var(--paper);text-align:left;font:400 12px 'Archivo Black',Impact,sans-serif;padding:12px}
+td{padding:12px;border-bottom:2px solid var(--ink);line-height:1.6}
+.lnk{background:none;border:0;color:var(--blue);font:600 13px Inter,sans-serif;text-decoration:underline;cursor:pointer;padding:4px 8px;min-height:44px}
+.lnk.del{color:var(--red)}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;align-items:end;margin-bottom:24px}
+.band{background:var(--band-bg);color:var(--band-text);border:2px solid var(--ink);padding:24px 24px 0;margin-bottom:32px}
+.band h1{color:var(--band-text)}
+.azulejo{height:40px;margin:24px -24px 0;border-top:2px solid var(--ink);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23ede3cf'/%3E%3Cpolygon points='40,6 47,33 74,40 47,47 40,74 33,47 6,40 33,33' fill='%231a3ba8'/%3E%3Cpolygon points='40,20 50,30 60,40 50,50 40,60 30,50 20,40 30,30' fill='%23c8103a'/%3E%3Ccircle cx='0' cy='0' r='9' fill='%23f5b400'/%3E%3Ccircle cx='80' cy='0' r='9' fill='%23f5b400'/%3E%3Ccircle cx='0' cy='80' r='9' fill='%23f5b400'/%3E%3Ccircle cx='80' cy='80' r='9' fill='%23f5b400'/%3E%3C/svg%3E");background-size:80px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;padding-bottom:24px}
+.stat{background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:2px;box-shadow:6px 6px 0 var(--ink);padding:20px;position:relative;overflow:hidden;display:grid;gap:8px}
+.stat span{font:600 12px Inter,sans-serif;letter-spacing:.14em}
+.stat::after{content:'';position:absolute;top:0;right:0;width:28px;height:28px;background:var(--ink);border-left:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.stat.open::after{background:var(--blue)}.stat.prog::after{background:var(--terra)}.stat.done::after{background:var(--moss)}
+.stat strong{font:400 clamp(32px,4.5vw,56px)/1 'Archivo Black',Impact,sans-serif;font-variant-numeric:tabular-nums}
+.stat.open strong{color:var(--blue)}.stat.prog strong{color:var(--terra)}.stat.done strong{color:var(--moss)}
+.login{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+.fan{color:var(--blue);width:100%;height:auto;margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:24px}
+.sw{border:2px solid var(--ink);background:var(--paper);box-shadow:4px 4px 0 var(--ink)}
+.sw i{display:block;height:56px;border-bottom:2px solid var(--ink)}.sw div{padding:10px}
+.sample{font-size:24px;margin:0 0 8px}
+dialog{border:2px solid var(--ink);border-radius:2px;background:var(--paper);color:var(--ink);box-shadow:10px 10px 0 var(--ink);padding:24px;max-width:min(440px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));margin-left:-150px;width:300px;background:var(--paper);border:2px solid var(--ink);border-radius:2px;box-shadow:4px 4px 0 var(--ink);padding:12px 16px;font-weight:600;opacity:0;transform:translateY(16px);pointer-events:none;transition:transform .25s cubic-bezier(.2,.8,.2,1),opacity .25s cubic-bezier(.2,.8,.2,1);z-index:40}
+#toast.show{opacity:1;transform:none}
+#iris{position:fixed;inset:0;background:var(--red);display:grid;place-items:center;color:#fff;z-index:50;clip-path:circle(0% at 50% 50%)}
+#iris[hidden]{display:none}
+footer{padding:0 24px 24px;max-width:1100px;margin:0 auto;color:var(--muted);font-size:13px}
+@media (max-width:760px){.login{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="mark" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="33"/><circle cx="50" cy="50" r="19"/><g id="petals"></g><circle cx="50" cy="50" r="7" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="fan" viewBox="-60 40 520 260"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M-50 200 H240 A60 60 0 0 1 300 260"/><path d="M-50 178 H240 A82 82 0 0 1 322 260"/><path d="M-50 156 H240 A104 104 0 0 1 344 260"/><path d="M-50 134 H240 A126 126 0 0 1 366 260"/><path d="M-50 112 H240 A148 148 0 0 1 388 260"/><path d="M-50 90 H240 A170 170 0 0 1 410 260"/><path d="M-50 68 H240 A192 192 0 0 1 432 260"/></g><path d="M300 260 A130 130 0 0 1 430 130 L430 200 A60 60 0 0 0 370 260 Z" fill="currentColor" opacity=".9"/></symbol>
+</defs></svg>
+
+<header class="top">
+  <div class="brand"><svg class="mark" aria-hidden="true"><use href="#mark"/></svg>Átrio</div>
+  <nav class="row" style="gap:0" aria-label="Principal">
+    <button class="nav-link" data-go="login">Login</button>
+    <button class="nav-link" data-go="dashboard">Painel</button>
+    <button class="nav-link" data-go="lista">Lista</button>
+    <button class="nav-link" data-go="nova">Nova solicitação</button>
+    <button class="nav-link" data-go="tokens">Tokens</button>
+  </nav>
+  <button class="btn" id="tt" style="margin-left:auto" aria-label="Alternar tema claro e escuro">Alternar tema</button>
+</header>
+
+<main>
+<section data-view="login">
+  <div class="login">
+    <div class="enter">
+      <h1>Nenhuma demanda interna se perde.</h1>
+      <p>Registre, acompanhe e conclua num só lugar, com rastreabilidade.</p>
+      <svg class="fan" viewBox="-60 40 520 260" aria-hidden="true"><use href="#fan"/></svg>
+    </div>
+    <form class="card enter" style="--i:2" id="fl" novalidate>
+      <h2 style="margin-top:0">Entrar</h2>
+      <div class="field"><label for="u">Usuário</label><input id="u" autocomplete="username" value="ana"></div>
+      <p class="err"></p>
+      <div class="field"><label for="s">Senha</label><input id="s" type="password" autocomplete="current-password" value="demo123"></div>
+      <p class="err"></p>
+      <button class="btn primary" type="submit">Entrar</button>
+      <p class="mono muted" style="margin:16px 0 0">Demonstração: ana e demo123</p>
+    </form>
+  </div>
+</section>
+
+<section data-view="dashboard">
+  <div class="band">
+    <h1 class="enter">Painel</h1>
+    <div class="stats">
+      <div class="stat enter" style="--i:1"><span>TOTAL</span><strong data-count="128">0</strong></div>
+      <div class="stat open enter" style="--i:2"><span>ABERTAS</span><strong data-count="46">0</strong></div>
+      <div class="stat prog enter" style="--i:3"><span>EM ATENDIMENTO</span><strong data-count="58">0</strong></div>
+      <div class="stat done enter" style="--i:4"><span>CONCLUÍDAS</span><strong data-count="24">0</strong></div>
+    </div>
+    <div class="azulejo" aria-hidden="true"></div>
+  </div>
+  <div class="card enter" style="--i:5">
+    <h3>Nenhuma pendência crítica hoje</h3>
+    <p>Abra a lista para consultar solicitações ou registre uma nova.</p>
+    <button class="btn primary" data-go="nova">Nova solicitação</button>
+  </div>
+</section>
+
+<section data-view="lista">
+  <h1 class="enter">Solicitações</h1>
+  <form class="filters enter" style="--i:1" id="ff">
+    <div class="field"><label for="q">Título</label><input id="q" type="search" placeholder="Buscar por título"></div>
+    <div class="field"><label for="fc">Categoria</label><select id="fc"><option value="">Todas</option><option>TI</option><option>RH</option><option>Compras</option><option>Financeiro</option><option>Infraestrutura</option></select></div>
+    <div class="field"><label for="fs">Status</label><select id="fs"><option value="">Todos</option><option value="a">Aberto</option><option value="p">Em atendimento</option><option value="c">Concluído</option></select></div>
+    <div class="field"><label for="d1">De</label><input id="d1" type="date"></div>
+    <div class="field"><label for="d2">Até</label><input id="d2" type="date"></div>
+    <div class="row"><button class="btn primary" type="submit">Filtrar</button><button class="btn" type="button" id="fx">Limpar</button></div>
+  </form>
+  <div class="tw"><table><thead><tr><th>Código</th><th>Título</th><th>Categoria</th><th>Solicitante</th><th>Abertura</th><th>Status</th><th>Ações</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="row" style="justify-content:space-between;margin-top:24px"><span class="mono muted" id="cnt"></span><div class="row"><button class="btn" disabled>Anterior</button><button class="btn" disabled>Próxima</button></div></div>
+</section>
+
+<section data-view="nova">
+  <h1 class="enter">Nova solicitação</h1>
+  <form class="card enter" style="--i:1;max-width:640px;display:grid;gap:4px" id="fn" novalidate>
+    <div class="field"><label for="nt">Título</label><input id="nt" maxlength="120"></div><p class="err" id="e1"></p>
+    <div class="field"><label for="nc">Categoria</label><select id="nc"><option>TI</option><option>RH</option><option>Compras</option><option>Financeiro</option><option>Infraestrutura</option></select></div><p class="err"></p>
+    <div class="field"><label for="nd">Descrição</label><textarea id="nd" maxlength="2000"></textarea></div><p class="err" id="e2"></p>
+    <div class="row"><button class="btn primary" type="submit">Salvar solicitação</button><button class="btn" type="button" data-go="lista">Cancelar</button></div>
+  </form>
+</section>
+
+<section data-view="tokens">
+  <h1 class="enter">Design system Átrio</h1>
+  <p class="enter" style="--i:1">Pré-visualização dos tokens e componentes da versão 1.1. Pressione d para alternar o tema.</p>
+  <h2>Cores e papéis</h2><div class="grid" id="sw"></div>
+  <h2>Tipografia</h2>
+  <div class="card">
+    <p class="sample" style="font-family:'Archivo Black'">Archivo Black: títulos e botões</p>
+    <p class="sample" style="font-family:Anton">ANTON: NUMERAÇÃO EDITORIAL 01 02 03</p>
+    <p class="sample" style="font-family:Inter">Inter: corpo, labels e tabelas</p>
+    <p class="sample mono" style="font-size:19px;margin:0">IBM Plex Mono: SOL-000128 02/10/2026</p>
+  </div>
+  <h2>Componentes</h2>
+  <div class="card" style="display:grid;gap:24px">
+    <div class="row"><button class="btn primary">Primário</button><button class="btn">Secundário</button><button class="btn" disabled>Desabilitado</button></div>
+    <div class="row"><span class="badge open">ABERTO</span><span class="badge prog">EM ATENDIMENTO</span><span class="badge done">CONCLUÍDO</span><span class="badge">TI</span><span class="badge">INFRAESTRUTURA</span></div>
+    <div class="grid"><div class="field"><label for="x1">Campo de texto</label><input id="x1" value="Valor de exemplo"></div><div class="field"><label for="x2">Campo de data</label><input id="x2" type="date"></div></div>
+  </div>
+  <h2>Sombras, bordas e vocabulário gráfico</h2>
+  <div class="row" style="gap:32px;align-items:flex-start">
+    <div class="sw" style="width:120px;box-shadow:4px 4px 0 var(--ink)"><div class="mono">4px</div></div>
+    <div class="sw" style="width:120px;box-shadow:6px 6px 0 var(--ink)"><div class="mono">6px</div></div>
+    <div class="sw" style="width:120px;box-shadow:10px 10px 0 var(--ink)"><div class="mono">10px</div></div>
+    <svg viewBox="0 0 100 100" width="96" height="96" style="color:var(--red)" aria-label="Medalhão radial"><use href="#mark"/></svg>
+    <svg viewBox="0 0 240 240" width="96" height="96" aria-label="Chevron 1968"><g fill="none" stroke-width="7"><g stroke="var(--blue)"><path d="M20 140 L120 40 L220 140"/><path d="M20 156 L120 56 L220 156"/><path d="M20 172 L120 72 L220 172"/></g><g stroke="var(--terra)"><path d="M20 200 L120 100 L220 200"/><path d="M20 216 L120 116 L220 216"/></g></g></svg>
+  </div>
+  <div class="azulejo" style="margin:24px 0 0;border:2px solid var(--ink)" aria-hidden="true"></div>
+</section>
+</main>
+<footer>Atalhos: g e depois 1 a 5 navega. d alterna o tema. / foca a busca. Esc fecha o diálogo.</footer>
+
+<dialog id="dlg" aria-labelledby="dt">
+  <h3 id="dt">Excluir solicitação?</h3>
+  <p id="db"></p>
+  <form method="dialog" class="row"><button class="btn" value="no">Cancelar</button><button class="btn primary" value="yes" id="dy">Excluir</button></form>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="iris" hidden aria-hidden="true"><svg viewBox="0 0 100 100" width="200" height="200"><use href="#mark"/></svg></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+$('#petals').innerHTML=[0,45,90,135,180,225,270,315].map(d=>`<ellipse cx="50" cy="28" rx="8" ry="22" transform="rotate(${d} 50 50)"/>`).join('');
+const ST={a:['ABERTO','open'],p:['EM ATENDIMENTO','prog'],c:['CONCLUÍDO','done']};
+let D=[["SOL-000128","Trocar monitor da recepção","TI","Ana Souza","2026-10-02","a"],["SOL-000127","Solicitar admissão de analista","RH","Carlos Lima","2026-10-01","p"],["SOL-000126","Comprar cadeiras para a sala 4","Compras","Marina Alves","2026-10-01","a"],["SOL-000125","Reembolso de viagem a Recife","Financeiro","Paulo Costa","2026-09-30","c"],["SOL-000124","Ar-condicionado do térreo com falha","Infraestrutura","Joana Reis","2026-09-30","p"],["SOL-000123","Liberar acesso à VPN","TI","Rafael Nunes","2026-09-29","c"],["SOL-000122","Atualizar política de férias","RH","Ana Souza","2026-09-28","a"],["SOL-000121","Nota fiscal pendente do fornecedor","Financeiro","Carlos Lima","2026-09-28","p"]];
+const fmt=d=>d.split('-').reverse().join('/');
+function rows(){
+  const q=$('#q').value.toLowerCase(),c=$('#fc').value,s=$('#fs').value,a=$('#d1').value,b=$('#d2').value;
+  const L=D.filter(r=>(!q||r[1].toLowerCase().includes(q))&&(!c||r[2]===c)&&(!s||r[5]===s)&&(!a||r[4]>=a)&&(!b||r[4]<=b));
+  $('#rows').innerHTML=L.length?L.map((r,i)=>`<tr class="enter" style="--i:${i}"><td class="mono">${r[0]}</td><td>${r[1]}</td><td><span class="badge">${r[2].toUpperCase()}</span></td><td>${r[3]}</td><td class="mono">${fmt(r[4])}</td><td><span class="badge ${ST[r[5]][1]}">${ST[r[5]][0]}</span></td><td><button class="lnk">Detalhes</button>${r[5]==='a'?`<button class="lnk del" data-del="${r[0]}">Excluir</button>`:''}</td></tr>`).join(''):'<tr><td colspan="7">Nenhuma solicitação encontrada. Limpe os filtros ou registre uma nova.</td></tr>';
+  $('#cnt').textContent=`Mostrando ${L.length} de ${D.length}`;
+}
+function count(el){const v=+el.dataset.count;if(RM.matches){el.textContent=v;return}let t0;const f=t=>{t0=t0||t;const p=Math.min((t-t0)/900,1);el.textContent=Math.round(v*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+let cur=null;
+function show(n){
+  $$('[data-view]').forEach(s=>s.classList.toggle('on',s.dataset.view===n));
+  $$('.nav-link').forEach(b=>b.classList.toggle('active',b.dataset.go===n));cur=n;
+  if(n==='dashboard')$$('[data-count]').forEach(count);
+  if(n==='lista')rows();
+  const h=$('[data-view].on h1');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}scrollTo(0,0);
+}
+function iris(mid){
+  const L=$('#iris');L.hidden=false;
+  L.animate([{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(150% at 50% 50%)'}],{duration:350,easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'}).onfinish=()=>{mid();
+    L.animate([{clipPath:'circle(150% at 50% 50%)'},{clipPath:'circle(0% at 50% 50%)'}],{duration:280,easing:'ease-in',fill:'forwards'}).onfinish=()=>{L.hidden=true}};
+}
+function go(n,transition=false){if(n===cur)return;if(RM.matches||!cur||!transition)show(n);else iris(()=>show(n))}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(g)go(g.dataset.go);
+  const b=e.target.closest('.btn');if(b){const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),p=document.createElement('span');p.className='ripple';p.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(p);setTimeout(()=>p.remove(),600)}
+  const d=e.target.closest('[data-del]');if(d){$('#db').textContent=`A solicitação ${d.dataset.del} será removida. Esta ação não pode ser desfeita.`;$('#dlg').dataset.code=d.dataset.del;$('#dlg').showModal()}
+});
+$('#dlg').addEventListener('close',e=>{if(e.target.returnValue==='yes'){D=D.filter(r=>r[0]!==e.target.dataset.code);rows();toast('Solicitação excluída')}e.target.returnValue=''});
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600)}
+$('#ff').addEventListener('submit',e=>{e.preventDefault();rows()});
+$('#fx').addEventListener('click',()=>{$('#ff').reset();rows()});
+$('#fl').addEventListener('submit',e=>{e.preventDefault();go('dashboard',true)});
+$('#fn').addEventListener('submit',e=>{
+  e.preventDefault();const t=$('#nt').value.trim(),d=$('#nd').value.trim();
+  $('#e1').textContent=t.length<3?'Informe um título com pelo menos 3 caracteres.':'';
+  $('#e2').textContent=d.length<10?'Descreva a demanda com pelo menos 10 caracteres.':'';
+  if(t.length<3||d.length<10)return;
+  D.unshift(['SOL-'+String(129+D.length-8).padStart(6,'0'),t,$('#nc').value,'Ana Souza',new Date().toISOString().slice(0,10),'a']);
+  e.target.reset();toast('Solicitação registrada');go('lista');
+});
+function theme(){const r=document.documentElement,dk=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dk?'light':'dark';try{localStorage.setItem('atrio-theme',r.dataset.theme)}catch(e){}}
+try{const t=localStorage.getItem('atrio-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+$('#tt').addEventListener('click',theme);
+$('#sw').innerHTML=[['--bg','Fundo de página'],['--paper','Cards, tabela, dialog'],['--ink','Texto, bordas, sombras'],['--muted','Texto secundário'],['--red','Ação primária e destrutiva'],['--blue','Status Aberto, links, página ativa'],['--yellow','Foco e acento editorial'],['--terra','Status Em Atendimento'],['--moss','Status Concluído'],['--band-bg','Faixa do dashboard']].map(([t,r])=>`<div class="sw"><i style="background:var(${t})"></i><div><div class="mono">${t}</div><div class="muted" style="font-size:13px">${r}</div></div></div>`).join('');
+const V=['login','dashboard','lista','nova','tokens'];let gt=0;
+addEventListener('keydown',e=>{
+  if(e.target.closest('input,textarea,select')||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(Date.now()-gt<1200&&/^[1-5]$/.test(e.key)){go(V[e.key-1]);gt=0;return}
+  gt=e.key==='g'?Date.now():0;
+  if(e.key==='d')theme();
+  if(e.key==='/'){e.preventDefault();show('lista');$('#q').focus()}
+});
+show('tokens');
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+import{j as t}from"./jsx-runtime-DFAAy_2V.js";function n({href:e,children:r,...i}){return t.jsx("a",{href:e,...i,children:r})}n.__docgenInfo={description:"",methods:[],displayName:"Link",props:{href:{required:!0,tsType:{name:"string"},description:""},children:{required:!0,tsType:{name:"ReactNode"},description:""}}};export{n as L};
