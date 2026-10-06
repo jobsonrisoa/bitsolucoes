@@ -73,7 +73,7 @@ storybook:
 	npm run storybook
 
 load:
-	k6 run k6/load-test.ts
+	docker run --rm -i --network=host -v $(PWD):/scripts grafana/k6 run /scripts/k6/load-test.ts
 
 logs:
 	npm run docker:logs

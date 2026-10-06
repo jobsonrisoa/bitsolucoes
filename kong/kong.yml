@@ -14,7 +14,7 @@ services:
         plugins:
           - name: rate-limiting
             config:
-              minute: 60
+              minute: 10000
               policy: local
 
       - name: protected-api
@@ -57,7 +57,7 @@ plugins:
       max_age: 3600
   - name: rate-limiting
     config:
-      minute: 60
+      minute: 10000
       policy: local
   - name: correlation-id
     config:
