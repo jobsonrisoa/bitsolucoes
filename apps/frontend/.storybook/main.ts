@@ -19,13 +19,12 @@ const config: StorybookConfig = {
   },
   viteFinal(config) {
     config.resolve = config.resolve ?? {};
-    config.resolve.alias = {
-      ...(config.resolve.alias ?? {}),
-      "@": resolve(__dirname, ".."),
-      "next/link": resolve(__dirname, "mocks/next-link.tsx"),
-      "next/navigation": resolve(__dirname, "mocks/next-navigation.ts"),
-      "@/context/AuthContext": resolve(__dirname, "mocks/auth-context.tsx"),
-    };
+    config.resolve.alias = [
+      { find: "@/context/AuthContext", replacement: resolve(__dirname, "mocks/auth-context.tsx") },
+      { find: "next/link", replacement: resolve(__dirname, "mocks/next-link.tsx") },
+      { find: "next/navigation", replacement: resolve(__dirname, "mocks/next-navigation.ts") },
+      { find: "@", replacement: resolve(__dirname, "..") },
+    ];
     return config;
   },
 };
